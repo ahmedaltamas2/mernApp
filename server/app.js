@@ -1,24 +1,21 @@
+// const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const port = 3000;
 
+// dotenv.config({path: './config.env'});
+require('./db/conn');
+// const User = require('./model/userSchema');
 
-const DB = 'mongodb+srv://altamas:altamas@cluster0.fqhon.mongodb.net/mernApp?retryWrites=true&w=majority'
+app.use(express.json());
 
-mongoose.connect(DB,{
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
-}).then(() => {
-  console.log('connection successfull');
+//link router files
+app.use(require('./router/auth'));
 
-}).catch((err) => console.log('no connection'));
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello World!')
+// });
 
 app.get('/about', (req, res) => {
     res.send('Hello World About!')
