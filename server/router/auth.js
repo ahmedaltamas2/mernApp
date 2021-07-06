@@ -37,7 +37,6 @@ router.post('/register', async (req, res) => {
 
             res.status(201).json({ message : "user registered successfully"});
         }
-
     }catch(err){
         console.log(err);
     }
@@ -61,6 +60,11 @@ router.post('/signin', async (req,res) => {
             
             const token = await userLogin.generateAuthToken();
             console.log(token);
+
+            res.cookie("cookiename",token,{
+                expires: new Date(Date.now() + 25892000000 ),
+                httpOnly: true
+            });
 
             if(!isMatch){
                 res.status(400).json({error : "Invalid Credentials"})
