@@ -252,3 +252,9 @@ h2::after {
 	background: #888!important;		
 }
 
+.form-control-contact {
+	height: 150px;
+	width: 300px;
+	box-shadow: none;
+	color: #969fa4;
+}
