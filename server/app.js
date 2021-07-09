@@ -1,25 +1,33 @@
 // const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const express = require('express');
+
+const cors = require('cors');
 const app = express();
-const port = 3000;
+
+
+app.options("*", cors());
+app.use(cors());
+
+
+const port = 5000;
 
 // dotenv.config({path: './config.env'});
 require('./db/conn');
 // const User = require('./model/userSchema');
 
-app.use(express.json());
 
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 //link router files
 app.use(require('./router/auth'));
 
-// app.get('/', (req, res) => {
-//   res.send('Hello World!')
-// });
 
-app.get('/about', (req, res) => {
-    res.send('Hello World About!')
-  });
+
+// app.get('/about', (req, res) => {
+//     res.send('Hello World About!')
+//   });
 
 app.get('/contact', (req, res) => {
     res.send('Hello World Contact!')
