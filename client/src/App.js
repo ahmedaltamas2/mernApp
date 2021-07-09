@@ -4,10 +4,10 @@ import "./App.css";
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import About from './components/About';
-import Contact from './components/Contact';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Errorpage from './components/Errorpage';
+import Logout from './components/Logout';
 
 
 const App = () => {
@@ -24,12 +24,14 @@ const App = () => {
         <About />
       </Route>
 
-      <Route exact path="/contact">
-        <Contact />
-      </Route>
+      
 
       <Route exact path="/login">
         <Login />
+      </Route>
+
+      <Route exact path="/logout">
+        <Logout />
       </Route>
 
       <Route exact  path="/signup">

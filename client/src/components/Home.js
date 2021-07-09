@@ -1,7 +1,8 @@
-import React from 'react';
+import React   from 'react';
 
 
-function Home() {
+const Home = () => {
+   
     const mystyle = {
         color: "black",
         backgroundColor: "#ffdc12",
@@ -14,7 +15,7 @@ function Home() {
         < >
             <div style={mystyle}>
                 <h1>
-                WELCOME EVERYONE
+                WELCOME 
                 </h1>
                 <p>KEEP YOUR CONTACT INFORMATION HERE</p>
                

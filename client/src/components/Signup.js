@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink , useHistory } from 'react-router-dom'
 const Signup = () => {
 
+    const history = useHistory(); 
+
     const [user, setUser] = useState({
-        username:"", email:"",phone:"", password:"",cpassword:""
+        name:"", email:"",phone:"", work:"",password:"",cpassword:""
     });
 
     let name, value;
@@ -14,10 +16,45 @@ const Signup = () => {
 
         setUser({...user, [name]:value});
     }
+
+    const PostData = async (e) => {
+            e.preventDefault();
+
+            const { name, email,phone,work, password,cpassword } = user;
+
+            const res = await fetch("http://localhost:5000/register",{
+                method: "POST",
+                headers:{
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify({
+                    name,email,phone,work,password,cpassword
+                })
+
+            });
+
+            const data = await res.json();
+
+            if(res.status === 422 || !data){
+                window.alert("invalid Registration");
+                console.log("invalid Registration");
+            }else{
+                window.alert(" Registration Successfull");
+                console.log(" Registration Successfull ");
+
+                history.push("/login");
+            }
+
+
+    }
+
+
+
+
     return (
         <>
             <div className="signup-form">
-                <form  />
+                <form  method="POST">
                 <h2>Sign Up</h2>
                 <p>Please fill in this form to create an account!</p>
                 <hr />
@@ -28,8 +65,8 @@ const Signup = () => {
                                 <span className="fa fa-user"></span>
                             </span>
                         </div>
-                        <input type="text" className="form-control" name="username" placeholder="Username" required="required"
-                        value = {user.username}
+                        <input type="text" className="form-control" name="name" placeholder="Name" required="required"
+                        value = {user.name}
                         onChange= {handleInputs} />
                     </div>
                 </div>
@@ -57,6 +94,21 @@ const Signup = () => {
                         onChange= {handleInputs} />
                     </div>
                 </div>
+
+                <div className="form-group">
+                    <div className="input-group">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">
+                            <i className="fa fa-briefcase"></i>
+                            </span>
+                        </div>
+                        <input type="text" className="form-control" name="work" placeholder="Your Profession" required="required"  
+                         value = {user.work}
+                        onChange= {handleInputs} /> 
+                    </div>
+                </div>
+
+
                 
                 <div className="form-group">
                     <div className="input-group">
@@ -83,12 +135,11 @@ const Signup = () => {
                         onChange= {handleInputs} />
                     </div>
                 </div>
+               
                 <div className="form-group">
-                    <label className="form-check-label"><input type="checkbox" required="required" /> I accept the <NavLink to="/login">Terms of Use</NavLink> &amp; <NavLink to="/login">Privacy Policy</NavLink></label>
+                    <input type="button" className="btn btn-primary btn-lg" onClick={PostData} value="Sign Up" />
                 </div>
-                <div className="form-group">
-                    <button type="submit" className="btn btn-primary btn-lg">Sign Up</button>
-                </div>
+                </form>
 
                 <div className="text-center">Already have an account? <NavLink to="/login">Login here</NavLink></div>
 

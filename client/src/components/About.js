@@ -1,23 +1,69 @@
-import React from 'react'
-import dp from '../images/dp.jpg';
+import React , {useEffect, useState }from 'react'
+import { useHistory } from "react-router-dom";
 
 function About() {
+
+    const history = useHistory();
+    const [userData,setUserData] = useState({});
+
+    const callAboutPage = async () => {
+        try{
+            const res = await fetch ('http://localhost:5000/about',{
+                method: "GET",
+                headers: {
+                    // Accept : "application/json",
+                    // "Content-Type":"application/json"
+                    'authorization':'Bearer '+sessionStorage.getItem('token')
+    
+                },
+                // credentials:"include" 
+            });
+
+            const data = await res.json();
+            console.log(data);
+            setUserData(data);
+
+
+            if(!res.status === 200 ){
+                window.alert("no data");
+                console.log("no data");
+            }
+            
+
+        }catch(err){
+            console.log(err);
+            history.push('/login');
+           
+        }
+    }
+
+    useEffect(() => {
+       
+        callAboutPage();
+    }, []);
+
+
+
+
     return (
         <div>
+            <form method="GET">
           <h2>About Me</h2>
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
+<div id="myCarousel" className="carousel slide" data-ride="carousel">
 	
-	
-
-	<div class="carousel-inner">		
-		<div class="carousel-item active">
-			<div class="img-box"><img src={dp} alt=""/></div>
-			<p class="testimonial">I am a B.tech IT student at NSUT WEST CAMPUS.I completed my 12th from HHFS New Delhi</p>
-			<p class="overview"><b>Altamas Ahmed</b> MERN developer <a href="#"></a></p>
+	<div className="carousel-inner">		
+		<div className="carousel-item active">
+			
+			<p className="overview">
+                <b>Name  :    {userData.name}</b> 
+                <b>Phone Number  :    {userData.phone}</b>
+                <b>Work  :    {userData.work}</b>          
+                 </p>
 			
 		</div>
          </div> 
          </div>
+         </form>
          </div>
     )
 }
